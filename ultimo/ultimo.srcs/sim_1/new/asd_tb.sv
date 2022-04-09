@@ -63,23 +63,37 @@ module asd_tb;
     initial begin
         clk <= 1'b0;
 
-        // primer estado
+        /********************* 
+        primer text 
+        *********************/
         reset <= 1'b0;
         a <= 4'b1000;
         b <= 4'b0100;
-        #period; // wait for period 
+        #period; 
 
-        // primer estado
+        // reseteo
         reset <= 1'b1;
-        //a <= 8'b0000;
         #period;
 
-        // primer estado
+        // espero al resultado
         reset <= 1'b0;
-        //a <= 8'b0000;
+        #2000;
+
+        /********************* 
+        segundo text 
+        *********************/
+        reset <= 1'b0;
+        a <= 4'b1100;
+        b <= 4'b0110;
         #period;
 
-     
+        // reseteo
+        reset <= 1'b1;
+        #period;
+
+        // espero al resultado
+        reset <= 1'b0;
+        #2000;
         $finish;
        
     end

@@ -41,24 +41,15 @@ module asd(
     // nextstate logic 
     always_comb begin
         case(state)
-            S0: begin
+            S0: 
                 nextstate = S1;
-            end
             S1: begin
-                if(aux_a[0]==0)begin
-                    nextstate = S1;
-                end
-                else begin
-                    nextstate = S2;
-                end
+                if(aux_a[0]==0)nextstate = S1;  
+                else           nextstate = S2;           
             end
             S2: begin
-                if(aux_b[0]==0)begin
-                    nextstate = S2;
-                end
-                else begin
-                    nextstate = S3;
-                end
+                if(aux_b[0]==0)nextstate = S2;   
+                else           nextstate = S3; 
             end    
         endcase
     end
