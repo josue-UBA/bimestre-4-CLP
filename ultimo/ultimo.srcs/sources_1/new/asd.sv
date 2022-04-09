@@ -23,15 +23,27 @@
 
 module asd(
     input logic clk,reset,
-    input logic [3:0]a,b,
-    output reg [3:0]c
+    input logic [31:0]a,b,
+    output reg [31:0]c
     );
     
-    typedef enum logic [1:0]{S0,S1,S2,S3}statetype;
+    typedef enum logic [2:0]{
+        S0, // inicial
+        S1, // signos y asignar variables auxiliares
+        S2, // suma de exponentes
+        S3, // mantisa a la derecha
+        S4, // mantisa b la derecha
+        S5, // asignar valor multiplicado a mantica c
+        S6, // mantisa c a la izquierda
+        S7  // fin
+        }statetype;
     statetype state, nextstate;
            
-    reg [3:0]aux_a;
-    reg [3:0]aux_b;
+    reg [7:0]exp_a;
+    reg [7:0]exp_b;
+    reg [22:0]man_a;
+    reg [22:0]man_b;
+    reg [22:0]man_c;
     
     // state register
     always_ff@(posedge clk, posedge reset)begin
@@ -44,30 +56,60 @@ module asd(
             S0: 
                 nextstate = S1;
             S1: begin
-                if(aux_a[0]==0)nextstate = S1;  
-                else           nextstate = S2;           
+                nextstate = S2;
             end
             S2: begin
-                if(aux_b[0]==0)nextstate = S2;   
-                else           nextstate = S3; 
-            end    
+                nextstate = S3;
+            end
+            S3: begin
+                if(man_a[0]==0)nextstate = S3;  
+                else           nextstate = S4;           
+            end
+            S4: begin
+                if(man_b[0]==0)nextstate = S4;   
+                else           nextstate = S5; 
+            end
+            S5: begin
+                nextstate = S6;
+            end 
+            S6: begin
+                if(man_c[22]==0)nextstate = S6;   
+                else            nextstate = S7; 
+            end 
         endcase
     end
         
     // output logic
     always_ff@(posedge clk) begin
-        if(state == S0)begin
-            aux_a <= a;
-            aux_b <= b;
+        if(state == S1)begin
+            c[31] <= a[31] ^ b[31];
+            exp_a <= a[30:23];
+            exp_b <= b[30:23];
+            man_a <= a[22:0];
+            man_b <= b[22:0];
         end
-        else if(state == S1 && aux_a[0]==0) begin
-            aux_a <= aux_a >> 1;
+
+        else if(state == S2) begin
+            c[30:23] <= exp_a + exp_b;
         end
-        else if(state == S2 && aux_b[0]==0) begin
-            aux_b <= aux_b >> 1;
+        
+        else if(state == S3 && man_a[0]==0) begin
+            man_a <= man_a >> 1;
         end
-        else if(state == S3) begin
-            c <= aux_a * aux_b;
+        
+        else if(state == S4 && man_b[0]==0) begin
+            man_b <= man_b >> 1;
+        end
+        
+        else if(state == S5) begin
+            man_c <= man_a * man_b;
+        end
+        
+        else if(state ==S6 && man_c[22]==0) begin
+            man_c <= man_c << 1;
+        end
+        else if(state ==S7)begin
+            c[22:0] <=man_c;
         end
     end
 endmodule
