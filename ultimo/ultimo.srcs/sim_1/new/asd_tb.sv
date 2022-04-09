@@ -46,7 +46,7 @@
 
 module asd_tb;
     reg clk,reset;
-    reg [3:0]a;
+    reg [3:0]a,b;
     wire [3:0]c;
    
     always #100 clk = ~ clk;
@@ -57,6 +57,7 @@ module asd_tb;
         .clk(clk), 
         .reset(reset), 
         .a(a),
+        .b(b),
         .c(c));
         
     initial begin
@@ -64,7 +65,8 @@ module asd_tb;
 
         // primer estado
         reset <= 1'b0;
-        a <= 8'b1000;
+        a <= 4'b1000;
+        b <= 4'b0100;
         #period; // wait for period 
 
         // primer estado

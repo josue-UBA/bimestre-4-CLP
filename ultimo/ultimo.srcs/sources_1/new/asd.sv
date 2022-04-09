@@ -23,14 +23,15 @@
 
 module asd(
     input logic clk,reset,
-    input logic [3:0]a,
+    input logic [3:0]a,b,
     output reg [3:0]c
     );
     
-    typedef enum logic [1:0]{S0,S1,S2}statetype;
+    typedef enum logic [1:0]{S0,S1,S2,S3}statetype;
     statetype state, nextstate;
            
-    reg [3:0]aux;
+    reg [3:0]aux_a;
+    reg [3:0]aux_b;
     
     // state register
     always_ff@(posedge clk, posedge reset)begin
@@ -40,17 +41,42 @@ module asd(
     // nextstate logic 
     always_comb begin
         case(state)
-            S0:            nextstate = S1;
-            S1:if(c[0]==0) nextstate = S1;
-               else        nextstate = S2;
+            S0: begin
+                nextstate = S1;
+            end
+            S1: begin
+                if(aux_a[0]==0)begin
+                    nextstate = S1;
+                end
+                else begin
+                    nextstate = S2;
+                end
+            end
+            S2: begin
+                if(aux_b[0]==0)begin
+                    nextstate = S2;
+                end
+                else begin
+                    nextstate = S3;
+                end
+            end    
         endcase
     end
         
     // output logic
     always_ff@(posedge clk) begin
-        if(state == S0)c <= a;
-        else if(state == S1) begin
-            c <= c >> 1;
+        if(state == S0)begin
+            aux_a <= a;
+            aux_b <= b;
+        end
+        else if(state == S1 && aux_a[0]==0) begin
+            aux_a <= aux_a >> 1;
+        end
+        else if(state == S2 && aux_b[0]==0) begin
+            aux_b <= aux_b >> 1;
+        end
+        else if(state == S3) begin
+            c <= aux_a * aux_b;
         end
     end
 endmodule
