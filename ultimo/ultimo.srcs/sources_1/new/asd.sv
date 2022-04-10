@@ -27,88 +27,108 @@ module asd(
     output reg [31:0]c
     );
     
-    typedef enum logic [2:0]{
-        S0, // inicial
-        S1, // signos y asignar variables auxiliares
-        S2, // suma de exponentes
-        S3, // mantisa a la derecha
-        S4, // mantisa b la derecha
-        S5, // asignar valor multiplicado a mantica c
-        S6, // mantisa c a la izquierda
-        S7  // fin
+    typedef enum logic [4:0]{
+        S_inicial, // inicial
+        S_asignacion,
+        S_cero, // alguno es 0?
+        S_signos, // signos y asignar variables auxiliares
+        S_exponentes, // suma de exponentes
+        S_mantisa_a, // mantisa a la derecha
+        S_mantisa_b, // mantisa b la derecha
+        S_multipli, // asignar valor multiplicado a mantica c
+        S_mantisa_c, // mantisa c a la izquierda
+        S_fin  // fin
         }statetype;
     statetype state, nextstate;
            
     reg [7:0]exp_a;
     reg [7:0]exp_b;
+    reg [7:0]exp_c;
     reg [22:0]man_a;
     reg [22:0]man_b;
     reg [22:0]man_c;
+    reg sig_c;
     
     // state register
     always_ff@(posedge clk, posedge reset)begin
-        if(reset) state <= S0;
+        if(reset) state <= S_inicial;
         else      state <= nextstate;
     end
     // nextstate logic 
     always_comb begin
         case(state)
-            S0: 
-                nextstate = S1;
-            S1: begin
-                nextstate = S2;
-            end
-            S2: begin
-                nextstate = S3;
-            end
-            S3: begin
-                if(man_a[0]==0)nextstate = S3;  
-                else           nextstate = S4;           
-            end
-            S4: begin
-                if(man_b[0]==0)nextstate = S4;   
-                else           nextstate = S5; 
-            end
-            S5: begin
-                nextstate = S6;
-            end 
-            S6: begin
-                if(man_c[22]==0)nextstate = S6;   
-                else            nextstate = S7; 
-            end 
+            S_inicial: 
+                nextstate = S_asignacion;
+                
+            S_asignacion:
+                nextstate = S_cero;
+                
+            S_cero: 
+                if(man_a == 0 || man_b == 0) nextstate = S_fin;
+                else nextstate = S_signos;
+            
+            S_signos: 
+                nextstate = S_exponentes;
+                
+            S_exponentes: 
+                nextstate = S_mantisa_a;
+                
+            S_mantisa_a: 
+                if(man_a[0]==0)nextstate = S_mantisa_a;  
+                else           nextstate = S_mantisa_b;           
+            
+            S_mantisa_b: 
+                if(man_b[0]==0)nextstate = S_mantisa_b;   
+                else           nextstate = S_multipli; 
+            
+            S_multipli: 
+                nextstate = S_mantisa_c; 
+                
+            S_mantisa_c: 
+                if(man_c[22]==0)nextstate = S_mantisa_c;   
+                else            nextstate = S_fin; 
+                
+            S_fin:
+                nextstate = S_fin;
+             
         endcase
     end
         
     // output logic
     always_ff@(posedge clk) begin
-        if(state == S1)begin
-            c[31] <= a[31] ^ b[31];
+        if(state == S_asignacion)begin
             exp_a <= a[30:23];
             exp_b <= b[30:23];
             man_a <= a[22:0];
             man_b <= b[22:0];
         end
+        if(state == S_signos)
+            sig_c <= a[31] ^ b[31];        
 
-        else if(state == S2) begin
-            c[30:23] <= exp_a + exp_b;
+        else if(state == S_cero && (man_a == 0 || man_b == 0))begin
+            sig_c <= 0;
+            man_c <= 0;
+            exp_c <= 0;
         end
+
+        else if(state == S_exponentes) 
+            exp_c <= exp_a + exp_b;
         
-        else if(state == S3 && man_a[0]==0) begin
+        else if(state == S_mantisa_a && man_a[0]==0) 
             man_a <= man_a >> 1;
-        end
         
-        else if(state == S4 && man_b[0]==0) begin
+        else if(state == S_mantisa_b && man_b[0]==0) 
             man_b <= man_b >> 1;
-        end
         
-        else if(state == S5) begin
+        else if(state == S_multipli) 
             man_c <= man_a * man_b;
-        end
         
-        else if(state ==S6 && man_c[22]==0) begin
+        else if(state == S_mantisa_c && man_c[22]==0) 
             man_c <= man_c << 1;
-        end
-        else if(state ==S7)begin
+        
+        else if(state == S_fin)begin
+            c[31] <= sig_c;
+            c[30:23] <= exp_c;
             c[22:0] <=man_c;
         end
     end
