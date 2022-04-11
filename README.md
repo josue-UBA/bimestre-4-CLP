@@ -17,6 +17,11 @@ https://www.youtube.com/watch?v=RuKkePyo9zk
 - https://www.youtube.com/watch?v=HcjXH9WGmAU
 - sesgo de exponente https://hmong.es/wiki/Exponent_bias
 
+## ejemplo
+- https://www.quora.com/What-is-the-verilog-code-for-floating-point-multiplier
+- https://github.com/dawsonjon/fpu/blob/master/double_multiplier/double_multiplier.v
+
+
 # analisis
 ```
  3 3 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1
