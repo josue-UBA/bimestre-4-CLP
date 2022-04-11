@@ -4,22 +4,22 @@ proyectos
 - ejercicio 2
 - ejercicio 3
 - final
-# fuente
-
-https://www.youtube.com/watch?v=27JjUa-eu_E
-https://www.youtube.com/watch?v=RuKkePyo9zk
-
 ## complemento 
-- a uno https://es.wikipedia.org/wiki/Complemento_a_uno
-- a dos https://es.wikipedia.org/wiki/Complemento_a_dos
+- a uno [link](https://es.wikipedia.org/wiki/Complemento_a_uno)
+- a dos [link](https://es.wikipedia.org/wiki/Complemento_a_dos)
 ## IEEE 754
-- https://en.wikipedia.org/wiki/IEEE_754
-- https://www.youtube.com/watch?v=HcjXH9WGmAU
-- sesgo de exponente https://hmong.es/wiki/Exponent_bias
-
+- explicacion del protocolo en wikipedia [link](https://en.wikipedia.org/wiki/IEEE_754)
+- sesgo de exponente [link](https://hmong.es/wiki/Exponent_bias)
 ## ejemplo
-- https://www.quora.com/What-is-the-verilog-code-for-floating-point-multiplier
-- https://github.com/dawsonjon/fpu/blob/master/double_multiplier/double_multiplier.v
+### teorico numero
+- ejemplo 1 [link](https://www.youtube.com/watch?v=27JjUa-eu_E)
+- convertir numero (como 1.75) a binario [link](https://www.youtube.com/watch?v=HcjXH9WGmAU)
+### teorico multiplicacion
+- ejemplo 1 [link](https://www.youtube.com/watch?v=RuKkePyo9zk)
+### electronico multiplicacion
+- en unos de los comentarios hay un ejemplo de un multiplicador flotante de doble presicion (64 bits) [link](https://www.quora.com/What-is-the-verilog-code-for-floating-point-multiplier)
+## calculadora
+- de numero centesimal a binario [link](https://www.rapidtables.org/convert/number/decimal-to-binary.html)
 
 
 # analisis
