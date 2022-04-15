@@ -1,3 +1,9 @@
-ultimo/ultimo.sim/sim_1/behav/xsim/
+ultimo/ultimo.sim/
 ultimo/ultimo.cache/wt/
-project_2/project_2.hw/project_2.lpr
+ultimo/ultimo.runs/
+ultimo/ultimo.gen/
+ultimo/vivado_8608.backup.jou
+ultimo/vivado_8608.backup.log
+ultimo/vivado.log
+ultimo/vivado.jou
+ultimo/ultimo.xpr
