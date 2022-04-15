@@ -5,7 +5,7 @@ Diseño de multiplicador de coma flotante de 32 bits. Se solicita hacer el teste
 # Entregable
 - __multi_flotante.sv__: Contiene el desarrollo original. Nos basamos del libro x para partir dla maquina de estaoos
 - __multi_flotante.v__: Es el mismo codiogo que _multi_flotante.sv_ pero en verilog. 
-- __test_tb.v__: codigo verilog para testear el hardware _multi_flotante.v_.
+- __multi_flotante_tb.v__: codigo verilog para testear el hardware _multi_flotante.v_.
 
 Para el desarrollo del archivo _multi_flotante.v_ se seguio el libro _ISBN: 978-0-12-800056-4_ capitulo 4.6.
 
@@ -39,6 +39,7 @@ testeo:
 ## calculadora
 - de numero centesimal a binario [link](https://www.rapidtables.org/convert/number/decimal-to-binary.html)
 - binario a hexadecimal [link](https://cual-es-mi-ip.online/herramientas/conversores-numericos/conversor-binario-a-hexadecimal/)
+- hexadecimal a binario [link](https://cual-es-mi-ip.online/herramientas/conversores-numericos/conversor-hexadecimal-a-binario/)
 
 ## Arty z7-10
 - manual de refencia de la placa [link](https://digilent.com/reference/programmable-logic/arty-z7/reference-manual)

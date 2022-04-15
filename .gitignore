@@ -1,9 +1,3 @@
-ultimo/ultimo.sim/
-ultimo/ultimo.cache/wt/
-ultimo/ultimo.runs/
-ultimo/ultimo.gen/
-ultimo/vivado_8608.backup.jou
-ultimo/vivado_8608.backup.log
-ultimo/vivado.log
-ultimo/vivado.jou
-ultimo/ultimo.xpr
+
+coma_flotante/coma_flotante.sim/
+coma_flotante/coma_flotante.cache/
