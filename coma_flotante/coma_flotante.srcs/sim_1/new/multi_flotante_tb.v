@@ -123,6 +123,31 @@ module multi_flotante_tb();
             $display("test 1 correcto!!!");
         else 
             $display("error en test 1.");
+            
+            
+        /************************************************* SEGUNDO TEST 
+        *************************************************/
+        // inicio del test. Se pone los valores a a y b
+        reset <= 1'b0;
+        a <= 32'b00000000000000000000000000000000;
+        b <= 32'b00000000000000000000000000000000;
+        #period; 
+
+        // reseteo
+        reset <= 1'b1;
+        #period;
+
+        // espero al resultado
+        reset <= 1'b0;
+        #5000;
+
+        // testeo
+        $display("inicia assert 2...");
+        if(c === 32'b00000000000000000000000000000000) 
+            $display("test 2 correcto!!!");
+        else 
+            $display("error en test 2.");
+        
   
         $finish;
        

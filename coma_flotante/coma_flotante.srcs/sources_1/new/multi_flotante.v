@@ -86,7 +86,7 @@ module multi_flotante(
                 nextstate = S_cero;
                 
             S_cero: 
-                if(man_a == 0 || man_b == 0) nextstate = S_fin;
+                if( (man_a == 32'h00800000 && exp_a == 32'h000000e9 ) || (man_b == 32'h00800000 && exp_b == 32'h000000e9) ) nextstate = S_fin;
                 else nextstate = S_signos;
             
             S_signos: 
@@ -139,8 +139,13 @@ module multi_flotante(
             man_a[22:0] <= a[22:0];
             man_b[22:0] <= b[22:0];
         end
+        /* 
         
-        else if(state == S_cero && (man_a[31:0] == 0 || man_b[31:0] == 0))begin
+        3322222222221111111111
+        10987654321098765432109876543210 
+        00000000100000000000000000000000
+        */
+        else if(state == S_cero && ( (man_a == 32'h00800000 && exp_a == 32'h000000e9) || (man_b == 32'h00800000 && exp_b == 32'h000000e9) ) )begin
             sig_c <= 0;
             man_c <= 0;
             exp_c <= 0;
