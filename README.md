@@ -7,20 +7,73 @@ Diseño de multiplicador de coma flotante de 32 bits. Se solicita hacer el teste
 - __multi_flotante_tb.v__: codigo verilog para testear el hardware _multi_flotante.v_.
 - testeo en workbench y VIO.
 
-# Protocolo IEEE 754
-aqui se encontrara refencia del protocolo:
+# Multiplicacion binaria: Protocolo IEEE 754
+para entender el protocolo, comenzaremos por un ejemplo: 
+- Se multplicaran dos numeros flotantes en base decimal 
+- se transformaran a base binaria. 
+- Finalmente se pondran en el formato definido por el estandar IEEE 754
+
+multiplicamos los siguientes numeros:
+```
+A = -17.5 
+B = 1.15625
+C = resultado
+
+-17.5 x 1.15625 =    -20.234375  (decimal)
+```
+los pasamos a binario:
+```
+dos a la | 7 6 5 4 3 2 1 0|-1-2-3-4-5
+---------+----------------+----------
+         | 1              |0 0 0 0 0 0
+         | 2 6 3 1        |. . . . . .
+         | 8 4 2 6 8 4 2 1|5 2 1 0 0 0
+         |                |  5 2 6 3 1
+         |                |    5 2 1 5
+         |                |      5 2 6
+         |                |        5 2
+         |                |          5
+---------+----------------+----------
+               - 1 0 0 0 1.1           = -17.5
+                         1.0 0 1 0 1   =   1.15625
+               - 1 0 1 0 0.0 0 1 1 1 1 = -20.234375
+
+-10001.1 x 1.00101 = -10100.001111  (binario)
+```
+normalizamos los numeros: 
+```
+-10001.1      = -1.00011      x 2^(4)
++    1.00101  = +1.00101      x 2^(0)
+-10100.001111 = -1.0100001111 x 2^(4)
+```
+sesgamos potencias:
+```
+A_potencia: 127 + 4 = 131 = 10000011
+B_potencia: 127 + 0 = 127 = 01111111
+C_potencia: 127 + 4 = 131 = 10000011
+```
+Finalmente armamos las tramas:
+```
++-+--------+-----------------------+        
+|s| expone |        mantisa        |
++-+--------+-----------------------+
+|3|32222222|2221111111111          |
+|1|09876543|21098765432109876543210| pocision partiendo de 0 LMSB
++-+--------+-----------------------+        
+|1|10000011|00011000000000000000000| primer numero
+|0|01111111|00101000000000000000000| segundo numero
+|1|10000011|01000011110000000000000| resultado
++-+--------+-----------------------+        
+```      
+
+
+referencias:
 - explicacion del protocolo en wikipedia [link](https://en.wikipedia.org/wiki/IEEE_754)
 - sesgo de exponente [link](https://hmong.es/wiki/Exponent_bias)
-## flotante decimal a binario
-ejemplo de como se transforman numeros flotantes en decimal a binario:
-- ejemplo 1 [link](https://www.youtube.com/watch?v=27JjUa-eu_E)
-- convertir numero (como 1.75) a binario [link](https://www.youtube.com/watch?v=HcjXH9WGmAU)
-## multiplicacion
-paso a paso de como multiplicar dos numeros binarios en formato flotante haciendo uso del protoolo IEEE 754 
-- ejemplo 1 [link](https://www.youtube.com/watch?v=RuKkePyo9zk)
-
-implentacion de la multiplicacion binaria de dos numetos flotantes en verilog (hardware)
-- en unos de los comentarios hay un ejemplo de un multiplicador flotante de doble presicion (64 bits) [link](https://www.quora.com/What-is-the-verilog-code-for-floating-point-multiplier)
+- flotante decimal a binario ejemplo 1 [link](https://www.youtube.com/watch?v=27JjUa-eu_E)
+- flotante decimal a binario ejemplo 2 [link](https://www.youtube.com/watch?v=HcjXH9WGmAU)
+- multiplicacion teoria ejemplo 1 [link](https://www.youtube.com/watch?v=RuKkePyo9zk)
+- multiplicacion harware [link](https://www.quora.com/What-is-the-verilog-code-for-floating-point-multiplier)
 
 
 # Diseño
@@ -47,58 +100,37 @@ always_comb | always@*
 
 Se diseño el conjunto de pasos de la maquina de estados: 
 
+- S_inicial  
+  - todos los registos a 0
+- S_asignacion
+  - se asigna los valores a,b a los registros segun corresponda 
+  - antes de pasar la mantisa al registro, la mantisa tiena la siguiente forma 10100000 = 1.101
+  - al pasar al registro toma la siguiente forma 10100000 con exponente 2^-8
+  - una vez hecho esto con a y b estamos listos para hacer operaciones normales 
+- S_cero 
+  - si alguna mantisa es 0 se acaba la logica
+- S_signos   
+  - se genera el signo de c
+- S_mantisa_a 
+  - podriamos trabajar asi, pero se busca que la multiplicacion de registros mantisas no sea tan grande ( 10010000000 * 10100000000)
+  - lo que hacemos es dividir el registro mantisa entre 2 y multiplicar el registro exponente por 2 hasta que no se tenga 0 a la derecha.
+  - mantisa a la derecha 
+- S_mantisa_b  
+  - hacemos lo mismo aqui... 
+- S_exponentes 
+  - obtenemos exponente de c 
+- S_multipli   
+  - obtenemos mantisa de c 
+- S_mantisa_c  
+  - aqui ya nos olvidamos del registro, la idea es pasarlo al formato IEEE 754 
+  - usamos esta ecuacion: [BUS] - [0 en la izquierda] = [numero normalizado] 
+- S_mantisa_c_2 
+- S_fin 
+  - fin 
+
+
+
 ![](fotos/maquina_de_estados.png)
-
-```
- 3 3 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1
- 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0
-|-|- - - - - - - -|- - - - - - - - - - - - - - - - - - - - - - -|
-```
-## ejemplo 1
-convertir 17.5 a binario
-- primero convertir 17.5 a binario
-```
-dos a la | 7 6 5 4 3 2 1 0|-1-2-3-4-5
----------+----------------+----------
-         | 1              |0 0 0
-         | 2 6 3 1        |. . .
-         | 8 4 2 6 8 4 2 1|5 2 1
-         |                |  5 2
-         |                |    5
----------+----------------+----------         
-                 1 0 0 0 1.1   = 17.5
-```
-- luego se tiene que normalizar el 10001.1 de la siguiente manera
-
-```
-10001.1(binario) = 1.00011 x 2^4(binario)
-```
-- luego se tiene que sumar 127 al exponente y el resultado convertirlo a binario
-```
-4 + 127 = 131(decimal)
-
-dos a la | 7 6 5 4 3 2 1 0|-1-2-3-4-5
----------+----------------+----------
-         | 1              |0 0 0
-         | 2 6 3 1        |. . .
-         | 8 4 2 6 8 4 2 1|5 2 1
-         |                |  5 2
-         |                |    5
----------+----------------+----------         
-           1 0 0 0 0 0 1 1     = 131
-```
-- luego se tiene que convertir el numero 
-  - signo (0): por ser positivo
-  - exponente (10000011): que es 131 convertido a binario
-  - numero (00011000000000000000000): porque se le tiene que quitar el primer 1 y luego se completa con 0s a la derecha
-  
-- resultado:
-```
-signo  exponente                   numero
-|-|- - - - - - - -|- - - - - - - - - - - - - - - - - - - - - - -|
- 0 1 0 0 0 0 0 1 1 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-```
-
 # Despliegue
 
 ## PROJECT MANAGER
