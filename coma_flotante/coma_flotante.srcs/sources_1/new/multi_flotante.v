@@ -86,7 +86,7 @@ module multi_flotante(
                 nextstate = S_cero;
                 
             S_cero: 
-                if( (man_a == 32'h00800000 && exp_a == 32'h000000e9 ) || (man_b == 32'h00800000 && exp_b == 32'h000000e9) ) nextstate = S_fin;
+                if( (man_a == 32'h00800000 && exp_a == 32'hFFFFFF6A) || (man_b == 32'h00800000 && exp_b == 32'hFFFFFF6A) ) nextstate = S_fin;
                 else nextstate = S_signos;
             
             S_signos: 
@@ -132,23 +132,18 @@ module multi_flotante(
         end
         
         else if(state == S_asignacion)begin
-            exp_a[7:0] <= a[30:23] - 23;
-            exp_b[7:0] <= b[30:23] - 23;
+            exp_a <= a[30:23] - 23 - 127;
+            exp_b <= b[30:23] - 23 - 127;
             man_a[23] <= 1'b1;
             man_b[23] <= 1'b1;
             man_a[22:0] <= a[22:0];
             man_b[22:0] <= b[22:0];
         end
-        /* 
-        
-        3322222222221111111111
-        10987654321098765432109876543210 
-        00000000100000000000000000000000
-        */
-        else if(state == S_cero && ( (man_a == 32'h00800000 && exp_a == 32'h000000e9) || (man_b == 32'h00800000 && exp_b == 32'h000000e9) ) )begin
+    
+        else if(state == S_cero && ( (man_a == 32'h00800000 && exp_a == 32'hFFFFFF6A) || (man_b == 32'h00800000 && exp_b == 32'hFFFFFF6A) ) )begin
             sig_c <= 0;
             man_c <= 0;
-            exp_c <= 0;
+            exp_c <= 32'hFFFFFF81; // = -127 es el menor exponente que se pueda tener segun IEEE 754
         end
 
         else if(state == S_signos)
@@ -165,7 +160,7 @@ module multi_flotante(
         end
         
         else if(state == S_exponentes) 
-            exp_c <= exp_a + exp_b - 127;
+            exp_c <= exp_a + exp_b;
 
         else if(state == S_multipli) 
             man_c <= man_a * man_b;
@@ -182,7 +177,7 @@ module multi_flotante(
         
         else if(state == S_fin)begin
             c[31] <= sig_c;
-            c[30:23] <= exp_c[7:0];
+            c[30:23] <= exp_c[7:0] + 127;
             c[22:0] <=man_c[31:9];
         end
     end
