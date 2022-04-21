@@ -141,7 +141,7 @@ Se diseño el conjunto de pasos de la maquina de estados:
 ## IP INTEGRATOR
 
 - crear diseño
-- mandar el hardware al diseño
+- mandar ambos archivos verilog (__multi_flotante.v__ y __memoria.v__) al diseño:
 
 ![](fotos/paso_1.png)
 
@@ -199,16 +199,20 @@ Dar click en __Schematic__ para tener un detalle del hardware completo.
 ```
 |-- hola (repositorio)
     |-- fotos (imagenes)
-    |-- Untitled.mdj (diagrama de maquina de estados)
+    |-- UML.mdj (diagrama de maquina de estados)
     |-- README.md (documentacion)
-    |-- ultimo
-        |-- ultimo.srcs
+    |-- coma_flotante
+        |-- coma_flotante.srcs
             |-- sim_1
                 |-- new
                     |-- multi_flotante_tb.v (testeo)
             |-- sources_1
                 |-- new
-                    |-- multi_flotante.v (hardware)
+                    |-- multi_flotante.v (verilog del multiplicador)
+                    |-- memoria.v (verilog del detector de variacion)
+            |-- constrs_1
+                |-- new
+                    |-- mi_hardware.xdc (constraints)
 ```
 
 # Links
