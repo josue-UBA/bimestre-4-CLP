@@ -11,10 +11,11 @@
       "validated": "true"
     },
     "design_tree": {
+      "multi_flotante_0": "",
+      "memoria_0": "",
       "vio_0": "",
       "clk_wiz": "",
-      "multi_flotante_0": "",
-      "memoria_0": ""
+      "ila_0": ""
     },
     "ports": {
       "sys_clock": {
@@ -56,40 +57,6 @@
       }
     },
     "components": {
-      "vio_0": {
-        "vlnv": "xilinx.com:ip:vio:3.0",
-        "xci_name": "design_1_vio_0_0",
-        "xci_path": "ip\\design_1_vio_0_0\\design_1_vio_0_0.xci",
-        "inst_hier_path": "vio_0",
-        "parameters": {
-          "C_NUM_PROBE_OUT": {
-            "value": "2"
-          },
-          "C_PROBE_OUT0_WIDTH": {
-            "value": "32"
-          },
-          "C_PROBE_OUT1_WIDTH": {
-            "value": "32"
-          },
-          "C_PROBE_OUT2_WIDTH": {
-            "value": "32"
-          }
-        }
-      },
-      "clk_wiz": {
-        "vlnv": "xilinx.com:ip:clk_wiz:6.0",
-        "xci_name": "design_1_clk_wiz_0",
-        "xci_path": "ip\\design_1_clk_wiz_0\\design_1_clk_wiz_0.xci",
-        "inst_hier_path": "clk_wiz",
-        "parameters": {
-          "CLK_IN1_BOARD_INTERFACE": {
-            "value": "sys_clock"
-          },
-          "USE_BOARD_FLOW": {
-            "value": "true"
-          }
-        }
-      },
       "multi_flotante_0": {
         "vlnv": "xilinx.com:module_ref:multi_flotante:1.0",
         "xci_name": "design_1_multi_flotante_0_0",
@@ -187,21 +154,94 @@
             "direction": "O"
           }
         }
+      },
+      "vio_0": {
+        "vlnv": "xilinx.com:ip:vio:3.0",
+        "xci_name": "design_1_vio_0_0",
+        "xci_path": "ip\\design_1_vio_0_0\\design_1_vio_0_0.xci",
+        "inst_hier_path": "vio_0",
+        "parameters": {
+          "C_NUM_PROBE_OUT": {
+            "value": "2"
+          },
+          "C_PROBE_OUT0_WIDTH": {
+            "value": "32"
+          },
+          "C_PROBE_OUT1_WIDTH": {
+            "value": "32"
+          }
+        }
+      },
+      "clk_wiz": {
+        "vlnv": "xilinx.com:ip:clk_wiz:6.0",
+        "xci_name": "design_1_clk_wiz_0",
+        "xci_path": "ip\\design_1_clk_wiz_0\\design_1_clk_wiz_0.xci",
+        "inst_hier_path": "clk_wiz",
+        "parameters": {
+          "CLK_IN1_BOARD_INTERFACE": {
+            "value": "sys_clock"
+          },
+          "USE_BOARD_FLOW": {
+            "value": "true"
+          }
+        }
+      },
+      "ila_0": {
+        "vlnv": "xilinx.com:ip:ila:6.2",
+        "xci_name": "design_1_ila_0_0",
+        "xci_path": "ip\\design_1_ila_0_0\\design_1_ila_0_0.xci",
+        "inst_hier_path": "ila_0",
+        "parameters": {
+          "C_ENABLE_ILA_AXI_MON": {
+            "value": "false"
+          },
+          "C_MONITOR_TYPE": {
+            "value": "Native"
+          },
+          "C_NUM_OF_PROBES": {
+            "value": "1"
+          },
+          "C_PROBE0_WIDTH": {
+            "value": "32"
+          }
+        }
       }
     },
     "nets": {
       "Net": {
         "ports": [
           "clk_wiz/clk_out1",
-          "vio_0/clk",
           "multi_flotante_0/clk",
-          "memoria_0/clk"
+          "memoria_0/clk",
+          "vio_0/clk",
+          "ila_0/clk"
+        ]
+      },
+      "vio_0_probe_out0": {
+        "ports": [
+          "vio_0/probe_out0",
+          "memoria_0/a",
+          "multi_flotante_0/a"
+        ]
+      },
+      "vio_0_probe_out1": {
+        "ports": [
+          "vio_0/probe_out1",
+          "memoria_0/b",
+          "multi_flotante_0/b"
+        ]
+      },
+      "memoria_0_y": {
+        "ports": [
+          "memoria_0/y",
+          "multi_flotante_0/reset"
         ]
       },
       "multi_flotante_0_c": {
         "ports": [
           "multi_flotante_0/c",
-          "vio_0/probe_in0"
+          "vio_0/probe_in0",
+          "ila_0/probe0"
         ]
       },
       "sys_clock_1": {
@@ -214,26 +254,6 @@
         "ports": [
           "reset_rtl",
           "clk_wiz/reset"
-        ]
-      },
-      "memoria_0_y": {
-        "ports": [
-          "memoria_0/y",
-          "multi_flotante_0/reset"
-        ]
-      },
-      "vio_0_probe_out0": {
-        "ports": [
-          "vio_0/probe_out0",
-          "multi_flotante_0/a",
-          "memoria_0/a"
-        ]
-      },
-      "vio_0_probe_out1": {
-        "ports": [
-          "vio_0/probe_out1",
-          "multi_flotante_0/b",
-          "memoria_0/b"
         ]
       }
     }

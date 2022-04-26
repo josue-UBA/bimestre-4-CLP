@@ -1,7 +1,7 @@
 # Proyecto
 Diseño de multiplicador de coma flotante de 32 bits. Se solicita hacer el testeo con workbench y VIO (virtual input/output de Xilinx).
 
-![](fotos/captura.png)
+![](fotos/paso_9.png)
 # Entregable
 - __multi_flotante.v__: Hardware en verilog. 
 - __multi_flotante_tb.v__: codigo verilog para testear el hardware _multi_flotante.v_.
@@ -77,26 +77,6 @@ referencias:
 
 
 # Diseño
-Para este desarrollo se uso una maquina de estados Mealy. Me guie de la maquina de estados del libro __ISBN: 978-0-12-800056-4__, capitulo 4.6.
-
-![](fotos/libro.png)
-
-![](fotos/state_machine.png)
-
-Para poder agregar el hardware al bloque de diseño, el HDL a utilizar debe ser verilog y no system verilog, que es el HDL que el libro usa.
-
-![](fotos/hdl.png)
-
-Se consideraron las siguientes equivalencias entre system verilog y verilog para hacer funcionar el hardware:
-
- de (system verilog)... | a (verilog)... 
-| - | -
-input logic | input
-output logic | output
-typedef enum logic [1:0] {<br/>S0,<br/> S1,<br/> S2} statetype; | parameter S0 = 2'b00;<br/>parameter S1 = 2'b01;<br/>parameter S2 = 2'b10;<br/>
-statetype state, nextstate; | reg [1:0] state, nextstate;
-always_ff@ | always@ 
-always_comb | always@*
 
 Se diseño el conjunto de pasos de la maquina de estados: 
 
@@ -129,8 +109,31 @@ Se diseño el conjunto de pasos de la maquina de estados:
   - fin 
 
 
+![](fotos/maquina_de_estados_2.png)
 
 ![](fotos/maquina_de_estados.png)
+
+Para este desarrollo se uso una maquina de estados Mealy. Me guie de la maquina de estados del libro __ISBN: 978-0-12-800056-4__, capitulo 4.6.
+
+![](fotos/libro.png)
+
+![](fotos/state_machine.png)
+
+Para poder agregar el hardware al bloque de diseño, el HDL a utilizar debe ser verilog y no system verilog, que es el HDL que el libro usa.
+
+![](fotos/hdl.png)
+
+Se consideraron las siguientes equivalencias entre system verilog y verilog para hacer funcionar el hardware:
+
+ de (system verilog)... | a (verilog)... 
+| - | -
+input logic | input
+output logic | output
+typedef enum logic [1:0] {<br/>S0,<br/> S1,<br/> S2} statetype; | parameter S0 = 2'b00;<br/>parameter S1 = 2'b01;<br/>parameter S2 = 2'b10;<br/>
+statetype state, nextstate; | reg [1:0] state, nextstate;
+always_ff@ | always@ 
+always_comb | always@*
+
 # Despliegue
 
 ## PROJECT MANAGER
