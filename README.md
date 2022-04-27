@@ -165,7 +165,7 @@ Dar click en __Schematic__ para tener un detalle del hardware completo.
 
 ## SYNTHESIS
 
-- ejecutar __Run Synthesis__ dandole click. Luego dar click en __SYNTHESIS__. Dar click a __I/O Ports__.
+- ejecutar __Run Synthesis__ dandole click. Luego dar click en __Open Synthesized Design__. Dar click a __I/O Ports__.
 
 ![](fotos/paso_3.png)
 

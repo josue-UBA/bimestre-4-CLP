@@ -2840,9 +2840,9 @@
 							"font": "Arial;13;0",
 							"left": 488,
 							"top": 199,
-							"width": 177,
+							"width": 209,
 							"height": 126,
-							"text": "exp_a[7:0] <= a[30:23] - 23;\nexp_b[7:0] <= b[30:23] - 23;\nman_a[23] <= 1'b1;\nman_b[23] <= 1'b1;\nman_a[22:0] <= a[22:0];\nman_b[22:0] <= b[22:0];"
+							"text": "exp_a[7:0] <= a[30:23] - 23 - 127;\nexp_b[7:0] <= b[30:23] - 23 - 127;\nman_a[23] <= 1'b1;\nman_b[23] <= 1'b1;\nman_a[22:0] <= a[22:0];\nman_b[22:0] <= b[22:0];"
 						},
 						{
 							"_type": "UMLNoteLinkView",
@@ -2858,7 +2858,7 @@
 								"$ref": "AAAAAAGAF5Y5PGuDyY8="
 							},
 							"lineStyle": 1,
-							"points": "559:389;568:325"
+							"points": "559:389;576:325"
 						},
 						{
 							"_type": "UMLNoteView",
@@ -3169,12 +3169,12 @@
 										"$ref": "AAAAAAGAPw9z7dd9VUI="
 									},
 									"font": "Arial;13;0",
-									"left": 463,
+									"left": 487,
 									"top": 471,
 									"width": 140.93701171875,
 									"height": 13,
-									"alpha": -0.9198029522449738,
-									"distance": 72.42237223399962,
+									"alpha": -1.177216712357387,
+									"distance": 54.67174773134658,
 									"hostEdge": {
 										"$ref": "AAAAAAGAPw9z7dd+vmk="
 									},
@@ -3275,45 +3275,16 @@
 						},
 						{
 							"_type": "UMLNoteView",
-							"_id": "AAAAAAGAPxG2WNekLWU=",
-							"_parent": {
-								"$ref": "AAAAAAGAES3pvUOUuYE="
-							},
-							"font": "Arial;13;0",
-							"left": 792,
-							"top": 360,
-							"width": 97,
-							"height": 55,
-							"text": "sig_c <= 0;\nman_c <= 0;\nexp_c <= 0;"
-						},
-						{
-							"_type": "UMLNoteLinkView",
-							"_id": "AAAAAAGAPxG2edenkk8=",
-							"_parent": {
-								"$ref": "AAAAAAGAES3pvUOUuYE="
-							},
-							"font": "Arial;13;0",
-							"head": {
-								"$ref": "AAAAAAGAPxG2WNekLWU="
-							},
-							"tail": {
-								"$ref": "AAAAAAGAF5ZHAGuUzW8="
-							},
-							"lineStyle": 1,
-							"points": "704:483;800:415"
-						},
-						{
-							"_type": "UMLNoteView",
 							"_id": "AAAAAAGAPxPosNfGRCI=",
 							"_parent": {
 								"$ref": "AAAAAAGAES3pvUOUuYE="
 							},
 							"font": "Arial;13;0",
-							"left": 368,
-							"top": 456,
-							"width": 92,
-							"height": 68,
-							"text": "sig_c <= 0;\nman_c <= 0;\nexp_c <= 0;"
+							"left": 248,
+							"top": 440,
+							"width": 217,
+							"height": 55,
+							"text": "sig_c <= 0;\nman_c <= 0;\nexp_c <= 32'hFFFFFF81; //-127"
 						},
 						{
 							"_type": "UMLNoteLinkView",
@@ -3329,7 +3300,7 @@
 								"$ref": "AAAAAAGAPw9z7dd+vmk="
 							},
 							"lineStyle": 1,
-							"points": "526:540;460:510"
+							"points": "526:540;421:495"
 						},
 						{
 							"_type": "UMLNoteView",
@@ -3396,11 +3367,11 @@
 								"$ref": "AAAAAAGAES3pvUOUuYE="
 							},
 							"font": "Arial;13;0",
-							"left": 80,
-							"top": 808,
+							"left": 184,
+							"top": 840,
 							"width": 201,
 							"height": 27,
-							"text": "exp_c <= exp_a + exp_b - 127;\n"
+							"text": "exp_c <= exp_a + exp_b;\n"
 						},
 						{
 							"_type": "UMLNoteLinkView",
@@ -3416,7 +3387,7 @@
 								"$ref": "AAAAAAGAGMJ1kW083xM="
 							},
 							"lineStyle": 1,
-							"points": "302:784;226:807"
+							"points": "302:784;288:839"
 						},
 						{
 							"_type": "UMLNoteView",
@@ -3425,8 +3396,8 @@
 								"$ref": "AAAAAAGAES3pvUOUuYE="
 							},
 							"font": "Arial;13;0",
-							"left": 48,
-							"top": 496,
+							"left": 16,
+							"top": 504,
 							"width": 145,
 							"height": 53,
 							"text": "man_c <= man_c << 1;\nexp_c <= exp_c - 1;"
@@ -3442,10 +3413,10 @@
 								"$ref": "AAAAAAGAPyHrKNg8Wtg="
 							},
 							"tail": {
-								"$ref": "AAAAAAGAGMMovW3CB3Q="
+								"$ref": "AAAAAAGAGMLmwW2JV6U="
 							},
 							"lineStyle": 1,
-							"points": "175:566;154:549"
+							"points": "80:685;87:557"
 						},
 						{
 							"_type": "UMLTransitionView",
@@ -3547,11 +3518,11 @@
 								"$ref": "AAAAAAGAES3pvUOUuYE="
 							},
 							"font": "Arial;13;0",
-							"left": 440,
+							"left": 400,
 							"top": 648,
-							"width": 153,
+							"width": 193,
 							"height": 55,
-							"text": "c[31] <= sig_c;\nc[30:23] <= exp_c[7:0];\nc[22:0] <=man_c[31:9];"
+							"text": "c[31] <= sig_c;\nc[30:23] <= exp_c[7:0] + 127;\nc[22:0] <=man_c[31:9];"
 						},
 						{
 							"_type": "UMLNoteLinkView",
@@ -3567,7 +3538,7 @@
 								"$ref": "AAAAAAGAPyPl+9hJGZ0="
 							},
 							"lineStyle": 1,
-							"points": "488:597;506:647"
+							"points": "488:597;493:647"
 						},
 						{
 							"_type": "UMLNoteView",
@@ -3597,6 +3568,35 @@
 							},
 							"lineStyle": 1,
 							"points": "375:541;324:607"
+						},
+						{
+							"_type": "UMLNoteView",
+							"_id": "AAAAAAGAaDplIhqK5ng=",
+							"_parent": {
+								"$ref": "AAAAAAGAES3pvUOUuYE="
+							},
+							"font": "Arial;13;0",
+							"left": 88,
+							"top": 784,
+							"width": 178,
+							"height": 25,
+							"text": "man_c <= man_a * man_b;"
+						},
+						{
+							"_type": "UMLNoteLinkView",
+							"_id": "AAAAAAGAaDplRBqNceg=",
+							"_parent": {
+								"$ref": "AAAAAAGAES3pvUOUuYE="
+							},
+							"font": "Arial;13;0",
+							"head": {
+								"$ref": "AAAAAAGAaDplIhqK5ng="
+							},
+							"tail": {
+								"$ref": "AAAAAAGAGMKzAm11nr4="
+							},
+							"lineStyle": 1,
+							"points": "182:704;177:783"
 						}
 					]
 				}
